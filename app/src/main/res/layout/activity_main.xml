@@ -7,12 +7,26 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_bt"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:gravity="center"
+        android:text="@string/bt"
+        android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/btn_bt_client"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="btClient"
+        android:text="@string/bt_client"
+        app:layout_constraintTop_toBottomOf="@+id/tv_bt" />
+
+    <Button
+        android:id="@+id/btn_bt_server"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="btServer"
+        android:text="@string/bt_server"
+        app:layout_constraintTop_toBottomOf="@+id/btn_bt_client" />
 </androidx.constraintlayout.widget.ConstraintLayout>

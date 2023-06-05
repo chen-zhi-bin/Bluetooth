@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "33.0.2"
+    compileSdkVersion 31
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.program.bluetooth"
-        minSdkVersion 16
-        targetSdkVersion 33
+        minSdkVersion 21
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
