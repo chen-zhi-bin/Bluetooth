@@ -31,12 +31,14 @@ public class BtReceiver extends BroadcastReceiver {
         filter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED); //BluetoothAdapter连接状态
         filter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED); //BluetoothHeadset连接状态
         filter.addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED); //BluetoothA2dp连接状态
+        Log.d(TAG,"start = ");
         context.registerReceiver(this,filter);
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
+        Log.d(TAG,intent+" === "+context);
         if (action==null) {
             return;
         }

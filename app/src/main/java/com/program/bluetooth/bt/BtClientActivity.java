@@ -6,10 +6,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.program.bluetooth.APP;
 import com.program.bluetooth.R;
 import com.program.bluetooth.util.BtReceiver;
 
@@ -37,7 +43,16 @@ public class BtClientActivity extends AppCompatActivity implements BtReceiver.Li
         mInputFile = findViewById(R.id.input_file);
         mLogs = findViewById(R.id.tv_log);
         mBtReceiver = new BtReceiver(this, this);       //注册蓝牙广播
-        BluetoothAdapter.getDefaultAdapter().startDiscovery();
+
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        Log.d("BtClientActivity","start = "+adapter);
+        if (adapter.isEnabled()){
+            boolean b = adapter.startDiscovery();
+//            Intent discoveralbeIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+//            discoveralbeIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,12);
+//            startActivity(discoveralbeIntent);
+            Log.d("BtClientActivity","start = "+b);
+        }
     }
 
     @Override
@@ -49,6 +64,11 @@ public class BtClientActivity extends AppCompatActivity implements BtReceiver.Li
     @Override
     public void foundDev(BluetoothDevice dev) {
         mBtDevAdapter.add(dev);
+    }
+
+    // 重新扫描
+    public void reScan(View view) {
+        mBtDevAdapter.reScan();
     }
 
     @Override

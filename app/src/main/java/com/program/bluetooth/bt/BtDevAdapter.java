@@ -2,6 +2,7 @@ package com.program.bluetooth.bt;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ public class BtDevAdapter extends RecyclerView.Adapter<BtDevAdapter.VH> {
         String name = dev.getName();
         String address = dev.getAddress();
         int bondState = dev.getBondState();
+//        Log.d(TAG,"dev = "+dev.toString());
         holder.name.setText(name == null ? "" : name);
         holder.address.setText(String.format("%s (%s)", address, bondState == 10 ? "未配对" : "配对"));
     }
@@ -56,7 +58,20 @@ public class BtDevAdapter extends RecyclerView.Adapter<BtDevAdapter.VH> {
     }
 
     public void add(BluetoothDevice dev) {
+        if (mDevices.contains(dev)) {
+            return;
+        }
+        mDevices.add(dev);
+        notifyDataSetChanged();
+    }
 
+    public void reScan() {
+        mDevices.clear();
+        addBound();
+        BluetoothAdapter bt = BluetoothAdapter.getDefaultAdapter();
+        if (!bt.isDiscovering())
+            bt.startDiscovery();
+        notifyDataSetChanged();
     }
 
     public class VH extends RecyclerView.ViewHolder implements View.OnClickListener {

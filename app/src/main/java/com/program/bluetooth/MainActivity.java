@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 
 import com.program.bluetooth.bt.BtClientActivity;
@@ -43,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
             String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE
                     , Manifest.permission.READ_EXTERNAL_STORAGE
-                    , Manifest.permission.ACCESS_COARSE_LOCATION};
+                    , Manifest.permission.ACCESS_COARSE_LOCATION
+            ,Manifest.permission.ACCESS_FINE_LOCATION};
             for (String str : permissions) {
                 if (checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(permissions, 111);
