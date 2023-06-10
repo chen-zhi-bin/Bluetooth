@@ -87,7 +87,11 @@ public class BtDevAdapter extends RecyclerView.Adapter<BtDevAdapter.VH> {
 
         @Override
         public void onClick(View v) {
-
+            int pos = getAdapterPosition();
+            Log.d(TAG,"item onClick getAdapterPosition = "+pos);
+            if (pos >= 0 && pos < mDevices.size()) {
+                mListener.onItemClick(mDevices.get(pos));
+            }
         }
     }
 
