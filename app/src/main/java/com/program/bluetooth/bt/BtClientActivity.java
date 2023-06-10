@@ -20,6 +20,8 @@ import com.program.bluetooth.APP;
 import com.program.bluetooth.R;
 import com.program.bluetooth.util.BtReceiver;
 
+import java.io.File;
+
 public class BtClientActivity extends AppCompatActivity implements BtReceiver.Listener, BtDevAdapter.Listener, BtBase.Listener {
     private TextView mTips;
     private EditText mInputMsg;
@@ -73,6 +75,19 @@ public class BtClientActivity extends AppCompatActivity implements BtReceiver.Li
                 APP.toast("消息不能为空",0);
             }else {
                 mClient.sendMsg(msg);
+            }
+        }else {
+            APP.toast("没有连接",0);
+        }
+    }
+
+    public void sendFile(View view){
+        if (mClient.isConnected(null)) {
+            String filePath = mInputFile.getText().toString();
+            if (TextUtils.isEmpty(filePath)||!new File(filePath).isFile()) {
+                APP.toast("文件无效",0);
+            }else {
+                mClient.sendFile(filePath);
             }
         }else {
             APP.toast("没有连接",0);

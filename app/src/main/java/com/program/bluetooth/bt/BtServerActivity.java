@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.program.bluetooth.APP;
 import com.program.bluetooth.R;
 
+import java.io.File;
+
 public class BtServerActivity extends AppCompatActivity implements BtBase.Listener {
 
     private TextView mTips;
@@ -45,6 +47,19 @@ public class BtServerActivity extends AppCompatActivity implements BtBase.Listen
                 APP.toast("消息不能为空",0);
             }else {
                 mServer.sendMsg(msg);
+            }
+        }else {
+            APP.toast("没有连接",0);
+        }
+    }
+
+    public void sendFile(View view){
+        if (mServer.isConnected(null)) {
+            String filePath = mInputFile.getText().toString();
+            if (TextUtils.isEmpty(filePath)||!new File(filePath).isFile()) {
+                APP.toast("文件无效",0);
+            }else {
+                mServer.sendFile(filePath);
             }
         }else {
             APP.toast("没有连接",0);
