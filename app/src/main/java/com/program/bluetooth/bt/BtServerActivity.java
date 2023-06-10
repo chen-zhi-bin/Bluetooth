@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -34,6 +36,19 @@ public class BtServerActivity extends AppCompatActivity implements BtBase.Listen
         super.onDestroy();
         mServer.unListener();
         mServer.close();
+    }
+
+    public void sendMsg(View view){
+        if (mServer.isConnected(null)) {
+            String msg = mInputMsg.getText().toString();
+            if (TextUtils.isEmpty(msg)) {
+                APP.toast("消息不能为空",0);
+            }else {
+                mServer.sendMsg(msg);
+            }
+        }else {
+            APP.toast("没有连接",0);
+        }
     }
 
     @Override

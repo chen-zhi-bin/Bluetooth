@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 
 import com.program.bluetooth.APP;
+import com.program.bluetooth.util.Util;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 public class BtBase {
     static final UUID SPP_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private static final int FLAG_MSG = 0;  //消息标记
     private BluetoothSocket mSocket;
     private Listener mListener;
     private DataOutputStream mOut;
@@ -36,9 +38,12 @@ public class BtBase {
             mOut = new DataOutputStream(mSocket.getOutputStream());
             DataInputStream in = new DataInputStream(mSocket.getInputStream());
             isRead = true;
-            while (isRead){
+            while (isRead){     //死循环读取
                 switch (in.readInt()){
-
+                    case FLAG_MSG:  //读取短消息
+                        String msg = in.readUTF();
+                        notifyUI(Listener.MSG,"接收短消息："+msg);
+                        break;
                 }
             }
         } catch (IOException e) {
@@ -73,6 +78,28 @@ public class BtBase {
         }
         return connected && mSocket.getRemoteDevice().equals(dev);
     }
+
+    /**
+     * 发送短消息
+     */
+    public void sendMsg(String msg){
+        if (checkSend()) {
+            return;
+        }
+        isSending = true;
+        try {
+            mOut.writeInt(FLAG_MSG);
+            mOut.writeUTF(msg);
+            mOut.flush();
+            notifyUI(Listener.MSG,"发送短消息:" + msg);
+        } catch (IOException e) {
+            e.printStackTrace();
+            close();
+        }
+        isSending = false;
+    }
+
+
 
     //=========================================通知UI===========================================================
 

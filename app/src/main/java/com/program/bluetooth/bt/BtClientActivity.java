@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -65,6 +66,19 @@ public class BtClientActivity extends AppCompatActivity implements BtReceiver.Li
         mClient.close();
     }
 
+    public void sendMsg(View view){
+        if (mClient.isConnected(null)) {
+            String msg = mInputMsg.getText().toString();
+            if (TextUtils.isEmpty(msg)) {
+                APP.toast("消息不能为空",0);
+            }else {
+                mClient.sendMsg(msg);
+            }
+        }else {
+            APP.toast("没有连接",0);
+        }
+    }
+
     @Override
     public void foundDev(BluetoothDevice dev) {
         mBtDevAdapter.add(dev);
@@ -101,6 +115,10 @@ public class BtClientActivity extends AppCompatActivity implements BtReceiver.Li
             case BtBase.Listener.DISCONNECTED:
                 msg="连接断开";
                 mTips.setText(msg);
+                break;
+            case BtBase.Listener.MSG:
+                msg = String.format("\n%s", obj);
+                mLogs.append(msg);
                 break;
         }
         APP.toast(msg,0);
